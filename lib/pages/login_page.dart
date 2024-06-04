@@ -1,11 +1,15 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:recipe_app/pages/reset_password_page.dart';
 import 'package:recipe_app/pages/signup_page.dart';
+import 'package:recipe_app/services/api_service.dart';
 import 'package:recipe_app/services/firebase_auth_service.dart';
 import 'package:recipe_app/services/theme_service.dart';
 import 'package:recipe_app/widgets/auth_widgets/auth_button.dart';
 import 'package:recipe_app/widgets/auth_widgets/credentials_field.dart';
-import 'package:recipe_app/widgets/auth_widgets/google_button.dart';
+
+import '../models/customer.dart';
 
 class LogInPage extends StatefulWidget {
   const LogInPage({super.key});
@@ -16,6 +20,7 @@ class LogInPage extends StatefulWidget {
 
 class _LogInPageState extends State<LogInPage> {
   FirebaseAuthService authService = FirebaseAuthService();
+  ApiService apiService = ApiService();
   bool isSigning = false;
   bool isGoogleSigning = false;
   final TextEditingController _emailController = TextEditingController();
@@ -41,12 +46,18 @@ class _LogInPageState extends State<LogInPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    CredentialsForm(isPassword: false, labelText: "Email", controller: _emailController,
+                    CredentialsForm(
+                      isPassword: false,
+                      labelText: "Email",
+                      controller: _emailController,
                     ),
                     const SizedBox(
                       height: 20,
                     ),
-                    CredentialsForm(isPassword: true, labelText: "Password", controller: _passwordController,
+                    CredentialsForm(
+                      isPassword: true,
+                      labelText: "Password",
+                      controller: _passwordController,
                     ),
                     const SizedBox(
                       height: 15,
@@ -56,7 +67,8 @@ class _LogInPageState extends State<LogInPage> {
                       children: [
                         TextButton(
                             onPressed: () {
-                              Navigator.push(context,
+                              Navigator.push(
+                                  context,
                                   MaterialPageRoute(
                                       builder: (context) =>
                                           const ResetPasswordPage()));
@@ -72,14 +84,15 @@ class _LogInPageState extends State<LogInPage> {
                       onPressed: _signIn,
                       isSigning: isSigning,
                     ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    const Text("OR"),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    GoogleButton(isSigning: isGoogleSigning),
+                    // Todo: make the google sign in work with customer database
+                    // const SizedBox(
+                    //   height: 15,
+                    // ),
+                    // const Text("OR"),
+                    // const SizedBox(
+                    //   height: 15,
+                    // ),
+                    // GoogleButton(isSigning: isGoogleSigning),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -104,6 +117,7 @@ class _LogInPageState extends State<LogInPage> {
       ),
     );
   }
+
   void _signIn() async {
     setState(() {
       isSigning = true;
@@ -111,7 +125,12 @@ class _LogInPageState extends State<LogInPage> {
     String email = _emailController.text;
     String password = _passwordController.text;
 
-    await authService.signInWithEmailAndPassword(email, password);
+    Customer currentCustomer = await apiService.getCustomer(email);
+    print(currentCustomer.cID);
+    if (currentCustomer.cID != null) {
+      await authService.signInWithEmailAndPassword(
+          email, password, jsonEncode(currentCustomer.toJsonALL()));
+    }
 
     setState(() {
       isSigning = false;
@@ -119,7 +138,7 @@ class _LogInPageState extends State<LogInPage> {
   }
 }
 
-Widget buildTitleSection(BuildContext context){
+Widget buildTitleSection(BuildContext context) {
   return Expanded(
     flex: 2,
     child: Padding(

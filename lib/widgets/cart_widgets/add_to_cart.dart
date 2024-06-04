@@ -46,7 +46,7 @@ class _AddToCartButtonState extends State<AddToCartButton> {
           }
         },
         style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(Colors.grey.withOpacity(0.6)),
+          backgroundColor: MaterialStateProperty.all(Theme.of(context).cardColor),
             minimumSize: MaterialStateProperty.all(
                 const Size(double.infinity, 50)),
             shape: MaterialStatePropertyAll(RoundedRectangleBorder(

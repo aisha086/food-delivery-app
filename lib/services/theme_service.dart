@@ -42,7 +42,7 @@ class MyTheme{
 
   static Color lightCanvasColor = const Color(0xffffffff);
   static Color lightCardColor = const Color(0xfff5f5f5);
-  static Color lightIconColor = const Color(0xffDB4437);
+  static Color lightIconColor = const Color(0xffe37954);
   static Color lightAppBarColor = const Color(0xfff57a82);
   static Color darkCanvasColor = const Color(0xff333333);
   static Color darkContainerColor = const Color(0xff454f59);

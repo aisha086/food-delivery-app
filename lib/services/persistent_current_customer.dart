@@ -20,3 +20,8 @@ Future<Customer> getCustomerData() async {
     throw Exception('No customer data found');
   }
 }
+getCustomer() async{
+  Customer currCustomer;
+  currCustomer = await getCustomerData();
+  return currCustomer;
+}

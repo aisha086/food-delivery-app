@@ -28,9 +28,9 @@ class GoogleButton extends StatelessWidget {
                 children: [
                   Text(
                     "Continue with ",
-                    style: TextStyle(fontSize: 18),
+                    style: TextStyle(fontSize: 18,color: Colors.white),
                   ),
-                  Icon(FontAwesomeIcons.google)
+                  Icon(FontAwesomeIcons.google,color: Colors.white,)
                 ],
               ));
   }

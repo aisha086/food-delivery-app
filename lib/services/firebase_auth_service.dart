@@ -1,15 +1,18 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:recipe_app/services/persistent_current_customer.dart';
 import 'package:recipe_app/widgets/common_widgets/notifs.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class FirebaseAuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  Future<User?> signUpWithEmailAndPassword(String email, String password) async {
+  signUpWithEmailAndPassword(String email, String password) async {
     try {
       UserCredential credential = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
-      return credential.user;
+      _auth.signOut();
+      return true;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'email-already-in-use') {
         showToast("The email is already in use.");
@@ -24,10 +27,12 @@ class FirebaseAuthService {
     return null;
   }
 
-  Future<User?> signInWithEmailAndPassword(String email, String password) async {
+  Future<User?> signInWithEmailAndPassword(String email, String password,String customerJson) async {
     try {
       UserCredential credential = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
+
+      await storeCustomerData(customerJson);
       return credential.user;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'invalid-email') {
@@ -82,6 +87,8 @@ class FirebaseAuthService {
       if( await GoogleSignIn().isSignedIn()){
         await GoogleSignIn().signOut();
       }
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.remove('customer_data');
       showToast("Logged out successfully");
     }
     on FirebaseAuthException catch (e){
