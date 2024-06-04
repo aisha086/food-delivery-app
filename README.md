@@ -1,16 +1,12 @@
-# recipe_app
+# Food_Delivery_App
 
-A new Flutter project.
+Part of Database Project with Admin Panel in PHP, HTML & CSS, and Mobile App in Flutter.
 
-## Getting Started
+To run the app follow the following steps:
+1. First download the folder of the Admin Panel from //link to be added
+2. Move the folder to Xampp/htdocs "Xampp should be installed to run in local host"
+3. Run Apache and MySQL in xampp
+4. Create a database, use the .sql file in assets/database
+5. Change the IP address present in the API URL at lib/services/Apiservice.dart to the IP address of your own system.
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
