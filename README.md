@@ -9,4 +9,7 @@ To run the app follow the following steps:
 4. Create a database, use the .sql file in assets/flutter-php.sql
 5. Change the IP address present in the API URL at lib/services/Apiservice.dart to the IP address of your own system.
 
+WATCH DEMO HERE: https://youtu.be/9FK2fGnX8Z0
+
+
 
